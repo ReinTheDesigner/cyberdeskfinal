@@ -1,11 +1,11 @@
 [package]
-name = "rustdesk"
+name = "cyberdesk"
 version = "1.4.1"
-authors = ["rustdesk <info@rustdesk.com>"]
+authors = ["CybertechConsultants <chantswan@gmail.com>"]
 edition = "2021"
 build= "build.rs"
-description = "RustDesk Remote Desktop"
-default-run = "rustdesk"
+description = "Remote Desktop Software by Cybertech Consultants"
+default-run = "cyberdesk"
 rust-version = "1.75"
 
 [lib]
