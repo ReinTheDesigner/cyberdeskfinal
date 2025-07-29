@@ -108,24 +108,20 @@ jobs:
           channel: stable
           flutter-version: 3.32.8
 
-      - name: Force Flutter to correct version
+      - name: Set Flutter environment variables
         shell: pwsh
-        run: flutter version 3.32.8
-
-      - name: Clean Flutter pub cache
-        shell: pwsh
-        run: flutter pub cache repair
+        run: |
+          echo "FLUTTER_ROOT=${{ runner.tool_cache }}/flutter/3.32.8-stable/x64" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          echo "PATH=${{ runner.tool_cache }}/flutter/3.32.8-stable/x64/bin;${env:PATH}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Verify Flutter version
         shell: pwsh
         run: flutter --version
 
-      - name: Run flutter pub get with correct Flutter and Dart
+      - name: Run flutter pub get
         shell: pwsh
-        env:
-          FLUTTER_ROOT: ${{ runner.tool_cache }}/flutter/3.32.8-stable/x64
-          PATH: ${{ runner.tool_cache }}/flutter/3.32.8-stable/x64/bin;${{ env.PATH }}
         run: flutter pub get
+
 
       # https://github.com/flutter/flutter/issues/155685
       - name: Replace engine with rustdesk custom flutter engine
