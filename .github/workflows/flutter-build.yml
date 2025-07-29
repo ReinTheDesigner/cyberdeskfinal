@@ -311,6 +311,33 @@ jobs:
           files: |
             ./SignOutput/rustdesk-*.msi
             ./SignOutput/rustdesk-*.exe
+  build_windows:
+    name: Build Windows .exe
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+
+      - name: Install dependencies
+        run: |
+          rustup target add x86_64-pc-windows-msvc
+          cargo install cargo-bundle
+
+      - name: Build CyberDesk
+        run: cargo build --release --target x86_64-pc-windows-msvc
+
+      - name: Upload .exe artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cyberdesk-windows-exe
+          path: target/x86_64-pc-windows-msvc/release/cyberdesk.exe
+
 
   # The fallback for the flutter version, we use Sciter for 32bit Windows.
   build-for-windows-sciter:
