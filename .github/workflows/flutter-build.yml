@@ -108,18 +108,15 @@ jobs:
           channel: stable
           flutter-version: 3.32.8
 
-      - name: Fix Flutter environment for PowerShell
-        shell: pwsh
-        run: |
-          echo "FLUTTER_ROOT=${{ runner.tool_cache }}/flutter/3.32.8-stable/x64" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          echo "PATH=${{ runner.tool_cache }}/flutter/3.32.8-stable/x64/bin;${env:PATH}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
       - name: Verify Flutter version
         shell: pwsh
         run: flutter --version
 
-      - name: Flutter pub get
+      - name: Run flutter pub get with correct Flutter and Dart
         shell: pwsh
+        env:
+          FLUTTER_ROOT: ${{ runner.tool_cache }}/flutter/3.32.8-stable/x64
+          PATH: ${{ runner.tool_cache }}/flutter/3.32.8-stable/x64/bin;${{ env.PATH }}
         run: flutter pub get
 
 
